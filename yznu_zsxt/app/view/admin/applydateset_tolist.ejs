@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>申报截止日期设置列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>申报截止日期设置列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+
+                <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <!--<h4 class="example-title">工具条</h4>-->
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                <form role="form" class="form-inline" style="margin-top:0px" id="search-form">
+                                <label>申报月份:</label>
+                                <input class="form-control" readonly="" aria-invalid="apply_date" value="<%=apply_date%>"  name="apply_date"  placeholder="申报月份" id="start">
+                                </form>
+                            </div>
+                            <table id="rectable" data-mobile-responsive="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="apply_date" data-formatter="format">申报月份</th>
+                                    <th data-field="end_date">申报截止日期</th>
+                                    <th data-field="id"  data-formatter="operateFormatter">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Example Toolbar -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+
+<!-- Bootstrap table -->
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Peity -->
+<script src="/public/js/demo/bootstrap-table-demo.js"></script>
+<script>
+    var page=1;
+    var pageSize=10;
+    laydate.render({
+        elem: '#start',
+        format: 'yyyyMM',
+        type:'month',
+        done: function (datas) {
+            setTimeout(function () {
+                refresh_table(true);
+            },0);
+        }
+    });
+    (function () {
+        var page=1;
+        var pageSize=10;
+        if(!isEmpty('<%=page%>')){
+            page=parseInt('<%=page%>');
+        }
+        if(!isEmpty('<%=pageSize%>')){
+            pageSize=parseInt('<%=pageSize%>');
+        }
+        $('#rectable').bootstrapTable({
+            url: "/admin/applydateset/datalist",
+            search: false,
+            showRefresh: false,
+            showToggle: true,
+            showColumns: true,
+            queryParams:queryParams,
+            pagination: true,
+            sidePagination: 'server',
+            pageNumber: page,
+            pageSize: pageSize,
+            toolbar: '#data_tool',
+            striped: true
+        })
+    })();
+
+
+    function operateFormatter(value,row, index) {
+        return [
+            "<button type='button' class='btn btn-sm btn-warning' onclick='toedit(\""+value+"\")' style='margin-left:10px'>编辑</button>",
+            "<button type='button' class='btn btn-sm btn-danger' style='margin-left:10px' onclick='tonotice(\""+value+"\")'>通知</button>"
+        ].join('');
+    }
+
+    function rowFormatter(value,row, index){
+        return [index+1].join('');
+    }
+    //form表单数据转json
+    function serializeObject(form){
+        var obj=new Object();
+        $.each(form.serializeArray(),function(index,param){
+            if(!(param.name in obj)){
+                obj[param.name]=param.value;
+            }
+        });
+        return obj;
+    }
+    //搜索条件
+    function queryParams(params) {
+        var data=serializeObject($("#search-form")); //获取form表单参数 JSON格式
+        data.limit=params.limit;
+        data.offset=params.offset;
+        return data;
+    }
+    //刷新表单
+    function refresh_table(type){
+        //搜索按钮
+        if(!isEmpty(type)){
+            var params =$("#rectable").bootstrapTable('getOptions');
+            params.queryParams.limit=0;
+            params.queryParams.offset=pageSize;
+            $('#rectable').bootstrapTable('refresh', params);
+        }else{ //普通刷新
+            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                silent: true
+            });
+        }
+    }
+    function format(val) {
+        return val.substring(0,4)+"年"+val.substring(4,6)+"月";
+    }
+
+    /*
+       编辑页面
+     */
+    function toedit(value){
+        window.location.href = '/admin/applydateset/toedit?id='+value+"&page="+$(".pagination .active a").text()+"&pageSize="+$(".page-size").text();
+    }
+    /*
+    通知
+     */
+    function tonotice(val) {
+        $.get('/admin/applydateset/notice?id='+val,function (res) {
+            if(res.errno==0){
+                toastr.success(res.msg);
+            }else{
+                toastr.error(res.msg);
+            }
+        })
+    }
+
+
+
+</script>
+</body>
+</html>

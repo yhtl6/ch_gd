@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>菜单列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>菜单列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <!--<h4 class="example-title">工具条</h4>-->
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                <form role="form" class="form-inline" style="margin-top:0px" id="search-form">
+                                    <%
+                                        if(showback){
+                                      %>
+                                    <button  class="btn btn-outline btn-info" type="button" onclick="gofather()" style="margin-top:5px;">返回</button>
+                                    <%
+                                        }
+                                    %>
+
+                                    <button class="btn btn-outline btn-info" type="button" onclick="toadd()" style="margin-top:5px;">新增</button>
+                                </form>
+
+                            </div>
+                            <table id="rectable" data-mobile-responsive="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="name">菜单名</th>
+                                    <th data-field="uri"  >uri</th>
+                                    <th data-field="pname" >父菜单</th>
+                                    <th data-field="id"  data-formatter="operateFormatter">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Example Toolbar -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+
+<!-- Bootstrap table -->
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Peity -->
+<script src="/public/js/demo/bootstrap-table-demo.js"></script>
+<script>
+ var pid = "<%=pid%>";
+    (function () {
+
+        $('#rectable').bootstrapTable({
+            url: "/admin/menu/datalist?pid="+pid,
+            search: false,
+            showRefresh: false,
+            showToggle: true,
+            showColumns: true,
+            queryParams:queryParams,
+            pagination: false,
+            sidePagination: 'server',
+            toolbar: '#data_tool',
+            striped: true
+        })
+    })();
+
+    function gofather(){
+        window.location.replace("/admin/menu/tomenulist");
+    }
+
+
+    function operateFormatter(value,row, index) {
+        var operate = [];
+        operate.push("<button type='button' class='btn btn-sm btn-warning' onclick='toedit(\""+value+"\")' style='margin-left:10px'>编辑</button>");
+        if(pid == ""){
+            operate.push("<button type='button' class='btn btn-sm btn-warning' onclick='tosubmenu(\""+value+"\")' style='margin-left:10px'>子菜单维护</button>")
+        }
+
+        operate.push("<button type='button' class='btn btn-sm btn-danger' style='margin-left:10px' onclick='to_del(\""+value+"\")'>删除</button>");
+
+        return operate.join('');
+    }
+
+
+    function rowFormatter(value,row, index){
+        return [index+1].join('');
+    }
+
+    function tosubmenu(pid){
+        window.location.href="/admin/menu/tomenulist?pid="+pid;
+    }
+
+
+    //form表单数据转json
+    function serializeObject(form){
+        var obj=new Object();
+        $.each(form.serializeArray(),function(index,param){
+            if(!(param.name in obj)){
+                obj[param.name]=param.value;
+            }
+        });
+        return obj;
+    }
+    //搜索条件
+    function queryParams(params) {
+        var data=serializeObject($("#search-form")); //获取form表单参数 JSON格式
+        data.limit=params.limit;
+        data.offset=params.offset;
+        return data;
+    }
+    //刷新表单
+    function refresh_table(type){
+        //搜索按钮
+        if(!isEmpty(type)){
+            var params =$("#rectable").bootstrapTable('getOptions');
+            params.queryParams.limit=0;
+            params.queryParams.offset=pageSize;
+            $('#rectable').bootstrapTable('refresh', params);
+        }else{ //普通刷新
+            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                silent: true
+            });
+        }
+    }
+
+    //新增
+    function toadd(){
+        window.location.href='/admin/menu/toadd?pid='+pid;
+    }
+
+    //编辑
+    function toedit(id){
+        window.location.href='/admin/menu/toedit?id='+id+"&pid="+pid;
+    }
+
+    function to_del(id){
+        if(confirm("删除菜单将同时删除其子菜单，是否确认删除？")){
+            $.post("/admin/menu/delmenu",
+                {id,id},
+                function(res){
+                    if(res.errno==0){
+                        toastr.success('删除成功!', '成功');
+                        setTimeout(function(){
+                            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                                silent: true
+                            });
+                        },1000);
+                    }else{
+                        toastr.error(res.msg,'失败');
+                    }
+            })
+        }
+    }
+
+
+
+</script>
+</body>
+</html>

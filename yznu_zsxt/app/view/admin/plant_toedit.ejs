@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>农产品培育信息编辑</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+</head>
+<body class="gray-bg" >
+<div class="wrapper wrapper-content" id="app">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>农产品培育信息编辑</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="dataform">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>供应商：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control m-b chosen-select" name="supplier_id" v-model="form.supplier_id" id="supplier_id">
+                                    <option value="">--请选择供应商--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>生长状态：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="status" v-model="form.status">
+                                    <option value="">-请选择生长状态-</option>
+                                    <option value="0">育种</option>
+                                    <option value="1">施肥</option>
+                                    <option value="2">除虫</option>
+                                    <option value="3">收获</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>光照(Lx)：</label>
+                            <div class="col-sm-3">
+                                <input v-model="form.illumination"  type="text" class="form-control" name="illumination" id="illumination">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>温度(℃)：</label>
+                            <div class="col-sm-3">
+                                <input v-model="form.temperature"  type="text" class="form-control" name="temperature" id="temperature">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>湿度(%RH)：</label>
+                            <div class="col-sm-3">
+                                <input v-model="form.humidity"  type="text" class="form-control" name="humidity" id="humidity">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>存活率(%)：</label>
+                            <div class="col-sm-3">
+                                <input v-model="form.survival_rate"  type="text" class="form-control" name="survival_rate" id="survival_rate">
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.status==0">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>土壤状况：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="soil_condition" v-model="form.soil_condition" required>
+                                    <option value="">-请选择土壤状况-</option>
+                                    <option value="1">养分贫瘠</option>
+                                    <option value="2">潜在缺乏</option>
+                                    <option value="3">最佳水平</option>
+                                    <option value="4">养分过量</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.status==0">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>育种量(kg)：</label>
+                            <div class="col-sm-3">
+                                <input v-model="form.breeding_quantity"  type="text" class="form-control" name="breeding_quantity" id="breeding_quantity">
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.status==3">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>收获量(kg)：</label>
+                            <div class="col-sm-3">
+                                <input v-model="form.yield"  type="text" class="form-control" name="yield" id="yield">
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.status!=0&&form.status!=3">
+                            <label class="col-sm-2 control-label">农药/化肥使用情况：</label>
+                            <div class="col-sm-3"  style="text-align: left;">
+                                <textarea id="editor" class="form-control" style="height: 80px" placeholder="请输入内容"  name="pesticide_use" autofocus><%-data.pesticide_use%></textarea>
+                            </div>
+                            <div style="color: red">建议格式：</br>磷肥40g--张三--2018.10.10</br>氮肥40g--李四--2018.10.10</div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit" @click="save(this)" :disabled=" addbutton == false" style="margin-left:30px">保存</button>
+                                <button class="btn btn-default" type="button" onclick="window.history.go(-1)" style="margin-left:30px">取消</button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+<!--下拉多选-->
+<script src="/public/js/plugins/chosen/chosen.jquery.js" ></script>
+<!-- simditor -->
+<script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+<script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+<script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+<script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+<script>
+    $().ready(function () {
+        //初始化vue
+        app = new Vue({
+            el: '#app',
+            data: {
+                form:{
+                    id:'<%=data.id%>',
+                    supplier_id: '<%=data.supplier_id%>' ,//供应商
+                    status : '<%=data.status%>' ,//生长状态
+                    temperature : '<%=data.temperature%>',//温度
+                    humidity : '<%=data.humidity%>',//湿度
+                    survival_rate:'<%=data.survival_rate%>',//存活率
+                    product_id:'<%=product_id%>',//产品id
+                    illumination:'<%=data.illumination%>',//光照强度
+                    soil_condition:'<%=data.soil_condition%>',//土壤状况
+                    breeding_quantity:'<%=data.breeding_quantity%>',//育种量
+                    yield:'<%=data.yield%>',//收获量
+                    pesticide_use:'',
+                    phase:'<%=data.phase%>'//批次
+                },
+                editor : '' ,
+                icon : "<i class='fa fa-times-circle'></i>" ,
+                imageUrl : '' ,
+                addbutton : true
+
+            },
+            methods: {
+                getSupplier(){
+                    $.get("/admin/supplier/getsuppliers",function (res) {
+                        if(res.errno == 100){
+                            for(var i=0;i<(res.data).length;i++){
+                                if(res.data[i].id==app.form.supplier_id){
+                                    $("#supplier_id").append("<option value='"+res.data[i].id+"' selected>"+res.data[i].name+"</option>");
+                                }else{
+                                    $("#supplier_id").append("<option value='"+res.data[i].id+"'>"+res.data[i].name+"</option>");
+                                }
+                            }
+                            $('.chosen-select').chosen();
+                            $(".chosen-select").chosen().change(function(){
+                                //do something...
+                                app.form.supplier_id = $("#supplier_id").val();
+                            });
+                        }
+                    });
+                },
+                save(obj){
+                    $("#dataform").validate({
+                        submitHandler: function (form) {
+                            app.form.pesticide_use=$("#editor").val();
+                            app.addbutton = false;
+                            $.post("/admin/plant/update",
+                                app.form,function (res) {
+                                    if(res.errno=='100'){
+                                        toastr.success('编辑成功!', '成功');
+                                        setTimeout(function(){
+                                            window.location.href = '/admin/plant/tolist?'+'page=<%=page%>&status=<%=status%>&pageSize=<%=pageSize%>&pre_data=<%=pre_data%>&product_id=<%=product_id%>';
+                                        },1000);
+                                    }else{
+                                        app.addbutton = true;
+                                        toastr.error(res.msg,'失败');
+                                    }
+                                });
+
+                        },
+                        rules : {
+                            supplier_id : "required",
+                            status:"required",
+                            temperature:{
+                                required:true,
+                                isRight:"#temperature"
+                            },
+                            humidity:{
+                                required:true,
+                                isRight:"#humidity"
+                            },
+                            survival_rate:{
+                                required:true,
+                                isRight:"#survival_rate"
+                            },
+                            illumination:{
+                                required:true,
+                                isRight:"#illumination"
+                            },
+                            soil_condition:"required",
+                            breeding_quantity:{
+                                required:true,
+                                isReg:"#breeding_quantity"
+                            },
+                            yield:{
+                                required:true,
+                                isReg:"#yield"
+                            }
+                        },
+                        messages : {
+                            supplier_id: app.icon + "请选择供应商",
+                            status:app.icon+"请选择生长状态",
+                            temperature:{
+                                required:app.icon+"请输入温度",
+                                isRight:app.icon+"请正确输入温度(29.23/29.3)"
+                            },
+                            humidity:{
+                                required:app.icon+"请输入湿度",
+                                isRight:app.icon+"请正确输入湿度(29.23/29.3)"
+                            },
+                            survival_rate:{
+                                required:app.icon+"请输入存活率",
+                                isRight:app.icon+"请正确输入存活率(99.23/99.3)"
+                            },
+                            illumination:{
+                                required:app.icon+"请输入光照强度",
+                                isRight:app.icon+"请正确输入光照强度(99.23/99.3)"
+                            },
+                            soil_condition:app.icon+"请选择土壤状况",
+                            breeding_quantity:{
+                                required:app.icon+"请填写育种量",
+                                isReg:app.icon+"请正确填写育种量"
+                            },
+                            yield:{
+                                required:app.icon+"请填写收获量",
+                                isReg:app.icon+"请正确填写收获量",
+                            }
+                        }
+                    });
+                    //自定义验证规则
+                    $.validator.addMethod("isRight", function(value, element) {
+                        var reg = /^[0-9]{1,3}(?:\.\d{1,2})?$/;//判断字符串是否为数字
+                        return this.optional(element) || (reg.test(value));
+                    }, app.icon +"请正确输入温度");
+                    $.validator.addMethod("isReg", function(value, element) {
+                        var reg = /^[0-9]{1,8}(?:\.\d{1,2})?$/;//判断字符串是否为数字
+                        return this.optional(element) || (reg.test(value));
+                    }, app.icon +"请正确输入温度");
+
+                },
+            }
+        })
+        app.getSupplier();
+    });
+</script>
+
+
+</body>
+
+</html>

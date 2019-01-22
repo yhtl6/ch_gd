@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>农产品培育信息详情</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<style>
+    .table{
+        margin-bottom: 0;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #20a0ff;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+<body class="gray-bg" >
+<div class="wrapper wrapper-content" id="app">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>农产品培育详情</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="dataform">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">农产品名称：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.product_name"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">供应商：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.supplier"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">生长状态：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.status"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">光照(Lx)：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.illumination"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">温度(℃)：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.temperature"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">湿度(℃)：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.humidity"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">存活率(%)：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.survival_rate"></label>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.sstatus==0">
+                            <label class="col-sm-2 control-label">土壤状况：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.soil_condition"></label>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.sstatus==0">
+                            <label class="col-sm-2 control-label">育种量：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-text="form.breeding_quantity"></label>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="form.sstatus!=0&&form.sstatus!=3">
+                            <label class="col-sm-2 control-label">农药/化肥使用情况：</label>
+                            <div class="col-sm-2 control-label" style="text-align: center;">
+                                <label style="text-align: center" v-html="form.pesticide_use"></label>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button class="btn btn-default" type="button" onclick="window.history.go(-1)" style="margin-left:30px">返回</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<!-- simditor -->
+<script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+<script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+<script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+<script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+<!--图片上传-->
+<script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+<script>
+
+    $().ready(function () {
+        //初始化vue
+        app = new Vue({
+            el: '#app',
+            data: {
+                form:{
+                    sstatus:'<%=data.status%>',
+                    id:'<%=data.id%>',
+                    product_name: '<%=data.product_name%>',
+                    supplier:'<%=data.supplier%>',
+                    status:'<%=data.status%>',
+                    illumination:'<%=data.illumination%>',
+                    temperature : '<%=data.temperature%>',
+                    humidity : '<%=data.humidity%>',
+                    survival_rate:'<%=data.survival_rate%>',
+                    pesticide_use:'<%-data.pesticide_use%>',
+                    soil_condition:'<%=data.soil_condition%>',
+                    breeding_quantity:'<%=data.breeding_quantity%>'
+                },
+                editor:'',
+                icon:"<i class='fa fa-times-circle'></i>",
+                addbutton:true
+
+            },
+            mounted: function(){
+                var status = '';
+                if(this.form.status=='0'){
+                    status='育种';
+                }else if(this.form.status=='1'){
+                    status='施肥';
+                }else if(this.form.status=='2'){
+                    status='除虫';
+                }else if(this.form.status=='3'){
+                    status='收获';
+                }
+                this.form.status = status;
+                var soil_condition = '';
+                if(this.form.soil_condition=='1'){
+                    soil_condition = '养分贫瘠';
+                }else if(this.form.soil_condition=='2'){
+                    soil_condition = '潜在缺乏';
+                }else if(this.form.soil_condition=='3'){
+                    soil_condition = '最佳水平';
+                }else if(this.form.soil_condition=='4'){
+                    soil_condition = '养分过多';
+                }
+                this.form.soil_condition = soil_condition;
+            },
+            methods: {
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

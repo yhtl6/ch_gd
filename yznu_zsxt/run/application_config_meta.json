@@ -1,0 +1,277 @@
+{
+  "keys": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+  "view": {
+    "mapping": {
+      ".ejs": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js"
+    },
+    "root": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-view\\config\\config.default.js",
+    "cache": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-view\\config\\config.local.js",
+    "defaultExtension": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-view\\config\\config.default.js",
+    "defaultViewEngine": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-view\\config\\config.default.js"
+  },
+  "mysql": {
+    "client": {
+      "host": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "port": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "user": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "password": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "database": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js"
+    },
+    "app": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+    "agent": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+    "default": {
+      "database": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-mysql\\config\\config.default.js",
+      "connectionLimit": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-mysql\\config\\config.default.js"
+    }
+  },
+  "security": {
+    "xframe": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "value": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "csrf": {
+      "ignore": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "useSession": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "ignoreJSON": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "cookieName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "sessionName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "headerName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "bodyName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "queryName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "domainWhiteList": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+    "protocolWhiteList": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+    "defaultMiddleware": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+    "hsts": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.local.js",
+      "maxAge": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "includeSubdomains": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "dta": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "methodnoallow": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "noopen": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "nosniff": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "xssProtection": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "value": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    },
+    "csp": {
+      "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js",
+      "policy": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+    }
+  },
+  "multipart": {
+    "fileSize": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+    "autoFields": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "defaultCharset": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fieldNameSize": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fieldSize": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fields": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "files": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "fileExtensions": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js",
+    "whitelist": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-multipart\\config\\config.default.js"
+  },
+  "redis": {
+    "client": {
+      "port": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "host": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "password": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+      "db": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js"
+    },
+    "default": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-redis\\config\\config.default.js",
+    "app": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-redis\\config\\config.default.js",
+    "agent": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-redis\\config\\config.default.js"
+  },
+  "sessionRedis": {
+    "name": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js"
+  },
+  "logger": {
+    "dir": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+    "level": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+    "consoleLevel": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+    "encoding": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "env": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "disableConsoleAfterReady": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "outputJSON": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "buffer": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "appLogName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "coreLogName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "agentLogName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "errorLogName": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "coreLogger": {
+      "consoleLevel": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.local.js"
+    }
+  },
+  "middleware": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+  "uploadDir": "D:\\newspace\\fd_w_rules\\fd_w_rules\\config\\config.default.js",
+  "onerror": {
+    "errorPageUrl": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-onerror\\config\\config.default.js",
+    "appErrorFilter": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-onerror\\config\\config.default.js"
+  },
+  "session": {
+    "maxAge": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-session\\config\\config.default.js",
+    "key": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-session\\config\\config.default.js",
+    "httpOnly": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-session\\config\\config.default.js",
+    "encrypt": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-session\\config\\config.default.js"
+  },
+  "i18n": {
+    "defaultLocale": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-i18n\\config\\config.default.js",
+    "dirs": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-i18n\\config\\config.default.js",
+    "queryField": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-i18n\\config\\config.default.js",
+    "cookieField": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-i18n\\config\\config.default.js",
+    "cookieMaxAge": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-i18n\\config\\config.default.js"
+  },
+  "watcher": {
+    "type": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-watcher\\config\\config.local.js",
+    "eventSources": {
+      "default": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-watcher\\config\\config.default.js",
+      "development": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-watcher\\config\\config.default.js"
+    }
+  },
+  "helper": {
+    "shtml": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-security\\config\\config.default.js"
+  },
+  "development": {
+    "watchDirs": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-development\\config\\config.default.js",
+    "ignoreDirs": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-development\\config\\config.default.js",
+    "fastReady": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-development\\config\\config.default.js",
+    "reloadOnDebug": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-development\\config\\config.default.js"
+  },
+  "logrotator": {
+    "filesRotateByHour": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "filesRotateBySize": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "maxFileSize": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "maxFiles": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "rotateDuration": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-logrotator\\config\\config.default.js",
+    "maxDays": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-logrotator\\config\\config.default.js"
+  },
+  "static": {
+    "prefix": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-static\\config\\config.default.js",
+    "dir": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-static\\config\\config.default.js",
+    "dynamic": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-static\\config\\config.default.js",
+    "preload": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-static\\config\\config.default.js",
+    "buffer": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-static\\config\\config.default.js",
+    "maxFiles": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-static\\config\\config.default.js"
+  },
+  "jsonp": {
+    "limit": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-jsonp\\config\\config.default.js",
+    "callback": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-jsonp\\config\\config.default.js",
+    "csrf": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\node_modules\\egg-jsonp\\config\\config.default.js"
+  },
+  "ejs": {
+    "root": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-view-ejs\\config\\config.default.js",
+    "cache": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-view-ejs\\config\\config.local.js",
+    "debug": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-view-ejs\\config\\config.default.js",
+    "compileDebug": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-view-ejs\\config\\config.default.js",
+    "delimiter": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-view-ejs\\config\\config.default.js",
+    "strict": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg-view-ejs\\config\\config.default.js"
+  },
+  "env": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "name": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "proxy": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "protocolHeaders": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "ipHeaders": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "hostHeaders": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "pkg": {
+    "name": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "version": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "description": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "private": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "dependencies": {
+      "egg": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-mysql": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-redis": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-session-redis": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-view-ejs": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-wechat": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "images": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "mkdirs": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-schedule": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "stream-wormhole": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    },
+    "devDependencies": {
+      "autod": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "autod-egg": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-bin": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-ci": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "egg-mock": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "eslint": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "eslint-config-egg": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "webstorm-disable-index": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    },
+    "engines": {
+      "node": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    },
+    "scripts": {
+      "start": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "dev": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "test": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "test-local": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "cov": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "lint": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "ci": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "autod": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    },
+    "ci": {
+      "version": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    },
+    "repository": {
+      "type": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "url": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    },
+    "author": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "license": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+  },
+  "baseDir": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "HOME": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "rundir": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "dump": {
+    "ignore": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+  },
+  "confusedConfigurations": {
+    "bodyparser": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "notFound": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "sitefile": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "middlewares": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "httpClient": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+  },
+  "notfound": {
+    "pageUrl": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+  },
+  "siteFile": {
+    "/favicon.ico": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+  },
+  "bodyParser": {
+    "enable": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "encoding": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "formLimit": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "jsonLimit": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "strict": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "queryString": {
+      "arrayLimit": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "depth": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+      "parameterLimit": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+    }
+  },
+  "httpclient": {
+    "keepAlive": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "freeSocketKeepAliveTimeout": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "timeout": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "maxSockets": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "maxFreeSockets": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "enableDNSCache": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "dnsCacheMaxLength": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+    "dnsCacheMaxAge": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+  },
+  "coreMiddleware": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js",
+  "workerStartTimeout": "D:\\newspace\\fd_w_rules\\fd_w_rules\\node_modules\\egg\\config\\config.default.js"
+}

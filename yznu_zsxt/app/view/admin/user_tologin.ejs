@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>登录</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <% include public_css%>
+    <link href="/public/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <style>
+        .btn-login{
+            width: 150px;
+            height: 30px;
+            background: -webkit-linear-gradient(60deg,#069CFD,#1CD4F1);
+            /*border-radius: 30px;*/
+            margin-top: 0px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 16px;
+            color: white;
+            margin-bottom: 25px;
+            /**
+            margin: 0 auto;
+            letter-spacing: 10px;
+            text-indent: 10px;
+            */
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+</head>
+
+<body class="gray-bg" style="background:url(/public/img/bg-login-1.png)">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown" id="app">
+        <div>
+            <div style="width:140px;height:140px;margin:0 auto;background:url(/public/img/logo1.svg) no-repeat center">
+
+                <h1 class="logo-name"></h1>
+
+            </div>
+            <h3 style="margin-bottom:28px;font-size:24px;line-height:28px"></h3>
+
+            <form class="m-t" role="form" id="dataform" >
+                <div class="form-group">
+                    <input type="text" v-model="form.user_name" name="user_name" class="form-control" placeholder="用户名" >
+                </div>
+                <!-- <div class="form-group" style="display: flex;margin-bottom: 0px;margin-top: 10px">
+                    <input type="password" v-model="form.password" name="password" class="form-control" placeholder="短信验证码">
+                    <div class="btn-login" id="btn_vcode" onclick="getCode()" style="cursor:pointer; font-size:14px; float:right;height:30px;line-height:30px;width:140px;">获取验证码</div>
+                </div> -->
+                <div class="form-group">
+                    <input type="password" v-model="form.password" name="password" class="form-control" placeholder="密码" >
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" :disabled="addbutton == false" style="background:none;color:#007bcd !important;border-color:#007bcd;margin-top:40px">登 录</button>
+                
+                
+
+
+                <!--<p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>
+                </p>-->
+
+            </form>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <% include public_js%>
+    <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+    <script src="/public/js/plugins/toastr/toastr.min.js"></script>
+    <script>
+        var app;
+            
+            $().ready(function () {
+
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    data: {
+                        form:{
+                            user_name: '', 
+                            password: '',   
+                        },
+                        addbutton:true
+
+                    }
+                })
+
+                //表单提交
+                toastr.options={
+                    positionClass:'toast-top-center'  //消息提示框显示位置在顶部中央
+                }
+                var icon = "<i class='fa fa-times-circle'></i> ";
+
+                $("#dataform").validate({
+                    submitHandler: function (form) {
+                        app.addbutton = false;
+                        $.post( "/admin/user/dologin",app.form, function( data ) {
+                                if(data.errno == 0){
+                                    toastr.success('登录成功!', '成功')
+                                    setTimeout(function () { 
+                                        window.location.href = '/admin/home/toindex'
+                                    }, 1000); 
+                                    
+                                }else{
+                                    toastr.error(data.msg,'失败')
+                                }
+                                app.addbutton = true;
+                            
+
+                        });    
+                        
+                    },
+                    //表单验证规则
+                    rules: {
+                        user_name: "required",
+                        password: {
+                            required: true,
+                            minlength: 6,
+                            maxlength:16
+                        }
+                    },
+                    messages: {
+                        user_name: icon + "请输入您的账号",
+        
+                        password: {
+                            required: icon + "请输入您的密码",
+                            minlength:icon + "密码不能少于6位",
+                            maxlength:icon + "密码不能超过16位"
+                        }
+                        
+                    }
+                });
+                
+
+
+           
+
+
+            })
+    </script>    
+    
+    
+
+</body>
+
+</html>

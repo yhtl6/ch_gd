@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>账单结算</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<style>
+    .table{
+        margin-bottom: 0;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #20a0ff;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+
+
+                            <div style="background-color: white">
+                                <div style="font-size: 24px;font-weight: bold;color: black;text-align:center;padding-top: 15px;margin-left: 20%;margin-right: 20%;">江苏爱康电力有限公司结算方案</div>
+
+                                <div style="font-size: 20px;margin-left: 20%;padding-top: 60px;color:black">
+                                    <%=data.comp_name%>：
+                                </div>
+
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 200%;word-break:break-all;">
+                                    依照我公司与贵公司签订的购售电合同，
+                                    <%=data.bill_date%>，
+                                    长协电量为<%=data.c1%>万千瓦时，
+                                    结算电价为<%=data.c2%>元/千瓦时；
+                                    月度竞价部分电量为<%=data.c3%>万千瓦时，
+                                    结算电价为<%=data.c4%>元/千瓦时。
+                                    上述合计电量<%=data.c5%>万千瓦时，
+                                    加权结算电价为<%=data.c6%>元/千瓦时。
+                                </div>
+
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 200%;word-break:break-all;">
+                                    依照购售电合同约定，本月包正向偏差<%=data.c7%>%,
+                                    超过偏差部分的结算电价为<%=data.c8%>元/千瓦时,
+                                    偏差考核电价<%=data.c9%>元/千瓦时；本月包负向偏差<%=data.c10%>%，
+                                    超过偏差部分的结算电价为<%=data.c11%>元/千瓦时，
+                                    偏差考核电价为<%=data.c12%>元/千瓦时。
+                                </div>
+
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 300%;word-break:break-all;">
+                                    特此函告。
+                                </div>
+
+                                <div style="text-align: right;margin-right: 20%;font-size: 18px;padding-top: 80px;color:black;line-height: 200%">
+                                    江苏爱康电力有限公司（签章）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;  月&nbsp;&nbsp;&nbsp;&nbsp;  日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div style="font-size: 24px;font-weight: bold;color: black;text-align:center;padding-top: 15px;margin-left: 20%;margin-right: 20%;">回执</div>
+
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 200%;word-break:break-all;">
+                                    江苏爱康电力有限公司，我公司已知晓结算方案，并：（以下二选一）
+                                </div>
+
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 200%;word-break:break-all;">
+                                    <b>1）同意</b><br/>
+                                </div>
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 200%;word-break:break-all;">
+                                    <b>2）不同意，并采取争议解决方式处理</b>
+                                </div>
+
+                                <div style="text-align: right;margin-right: 20%;font-size: 18px;padding-top: 80px;color:black;line-height: 200%">
+                                    <b><%=data.comp_name%>（签章）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;  月&nbsp;&nbsp;&nbsp;&nbsp;  日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+        <script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+        <!--图片上传-->
+        <script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+        <script>
+
+
+
+        </script>
+
+
+</body>
+
+</html>

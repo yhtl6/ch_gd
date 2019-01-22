@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg" >
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>角色查看</h5>
+                </div>
+
+                <div class="ibox-content">
+                    <!-- Example Toolbar -->
+
+
+                    <form class="form-horizontal m-t" id="dataform">
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label">角色代码：</label>
+                            <div class="col-sm-3" style="margin-top: 5px;">
+                            {{form.code}}
+                            </div>
+                        </div>
+
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label">角色描述：</label>
+                            <div class="col-sm-3" style="margin-top: 5px;">
+                                {{form.description}}
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="col-sm-2 control-label">菜单选择：</label>
+                            <div class="col-sm-5" >
+                                <label class="checkbox-inline i-checks" v-for="checkbox in options" style=""   >
+                                    {{ checkbox.name }}
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button type="button" class="btn btn-default" onclick="go_father();" style="margin-left: 20px;">
+                                    返回
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+
+<!-- Bootstrap table -->
+
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+
+<script>
+    var app;
+    $().ready(function () {
+        //初始化vue
+        app = new Vue({
+            el: '#app',
+            data: {
+                form:{
+                    id:'<%=data.id%>',
+                    code: '<%=data.code%>',
+                    description: '<%=data.description%>',
+                },
+                addbutton:true,
+                options:[]
+
+            },
+            methods:{
+                goFather(){
+                    window.location.href='/admin/role/tolist?page=<%=page%>&pageSize=<%=pageSize%>';
+                }
+            }
+        })
+
+        //获取已选菜单
+        $.get( "/admin/menu/show_selected?role_id="+'<%=data.id%>', function( data ) {
+            app.options = data;
+
+        });
+
+
+
+    });
+    function go_father(){
+        window.location.href='/admin/role/tolist?page=<%=page%>&pageSize=<%=pageSize%>';
+    }
+
+</script>
+
+
+</body>
+
+</html>

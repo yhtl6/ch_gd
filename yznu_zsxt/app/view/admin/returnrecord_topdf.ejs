@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>回访记录详情</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<style>
+    .table{
+        margin-bottom: 0;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #20a0ff;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="width: 300px">用户名：{{form.user_name}}</label>
+                                <label class="col-sm-2 control-label" style="margin-left: 150px">用户ID：{{form.user_number}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="width: 300px">孩子姓名：{{form.child_name}}</label>
+                                <label class="col-sm-2 control-label" style="margin-left: 150px">孩子性别：{{form.child_sex}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="width: 300px">孩子生日：{{form.child_birth}}</label>
+                                <label class="col-sm-2 control-label" style="margin-left: 150px">常住城市：{{form.address}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="width: 300px">所在医院：{{form.hospital_name}}</label>
+                                <label class="col-sm-2 control-label" style="margin-left: 150px">病床号：{{form.sickbed_number}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">联系方式：{{form.phone}}</label>
+                            </div>
+
+                            
+                            <div class="hr-line-dashed" style="color: #1c2b36"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >1.玺安暖心包领取时间？</label>
+                                <div class="col-sm-2" style="margin-top: 7px; ">
+                                    <label style="text-align: center">{{form.receive_time}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >2.玺安暖心包是否实用？</label>
+                                <div class="col-sm-2" style="margin-top: 7px; ">
+                                    <label style="text-align: center">{{form.is_practical}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >3.您希望玺安暖心包的款式是什么？</label>
+                                <div class="col-sm-2" style="margin-top: 7px; ">
+                                    <label style="text-align: center">{{form.style}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >4.您对玺安暖心包的质量是否满意？</label>
+                                <div class="col-sm-2" style="margin-top: 7px; ">
+                                    <label style="text-align: center">{{form.is_quality_satisfy}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >5.您对玺安暖心包的物品配置是否满意？</label>
+                                <div class="col-sm-2" style="margin-top: 7px; ">
+                                    <label style="text-align: center">{{form.is_deploy_satisfy}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" >6.您对玺安暖心包有什么建议？</label>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2" style="width: 600px">
+                                    <label style="text-align: left;">{{form.suggest}}</label>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+        <script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+        <!--图片上传-->
+        <script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+        <script>
+
+            $().ready(function () {
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    data: {
+                        form:{
+                            id:'<%=data.id%>',
+                            user_name: '<%=data.user_name%>',
+                            user_number:'<%=data.user_number%>',
+                            child_name:'<%=data.child_name%>',
+                            child_sex:'<%=data.child_sex%>',
+                            child_birth:'<%=data.child_birth%>',
+                            address:'<%=data.address%>',
+                            hospital_name : '<%=data.hospital_name%>',
+                            sickbed_number : '<%=data.sickbed_number%>',
+                            phone:'<%=data.phone%>',
+                            receive_time: '<%=data.receive_time%>',
+                            is_practical: '<%=data.is_practical%>',
+                            style: '<%=data.style%>',
+                            is_quality_satisfy: '<%=data.is_quality_satisfy%>',
+                            is_deploy_satisfy: '<%=data.is_deploy_satisfy%>',
+                            suggest:'<%=data.suggest%>'
+                        },
+                        editor:'',
+                        icon:"<i class='fa fa-times-circle'></i>",
+                        addbutton:true
+
+                    },
+                    mounted: function(){
+
+                    },
+                    methods: {
+                        down:function(){
+                            window.open("/common/upload/downloadPDF?id=<%=data.id%>");
+                        },
+                    }
+                });
+
+            });
+
+            function gofather(){
+                window.location.href = '/admin/returnrecord/tolist?'+'page=<%=page%>&search=<%=search%>&pageSize=<%=pageSize%>&hospital_id=<%=hospital_id%>&begin_time=<%=begin_time%>&end_time=<%=end_time%>';
+            }
+
+        </script>
+
+
+</body>
+
+</html>

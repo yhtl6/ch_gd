@@ -1,0 +1,43 @@
+<!--page/component/login/login.wxml-->
+<view class="body-view">
+  <view class="bg-view">
+    <image src='../../../imgs/bg-login.png'></image>
+  </view>
+  <view class='bigkuang'>
+    <view class="login-all">
+      <view class="login-view">
+        <view class="login-row">
+          <view class="logo-view">
+            <image src="../../../image/logo.svg" style='border-radius: 50%;'></image>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="logo-txt-view">
+            <view class="logo-txt">xxxx</view>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="input-view">
+            <view class="input">
+              <input placeholder-class='placeholder' placeholder='账号' bindblur='changeaccount' bindconfirm='changeaccount' bindinput='changeaccount' type='text' />
+            </view>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="input-view">
+            <view class="input">
+              <input type='password' placeholder-class='placeholder' placeholder='密码' bindblur='changepsd' bindconfirm='changepsd' bindinput='changepsd'/>
+            </view>
+          </view>
+        </view>
+        <view class="login-btn">
+          <view class="submit-btn" bindtap='to_login'>
+            <view class="txt" wx:if="{{is_login}}" disabled="true" loading="true">登陆中</view>
+            <view class="txt" wx:else >登录</view>
+          </view>
+        </view>
+        <view class='txt2' bindtap='to_register'>没有账号?</view>
+      </view>
+    </view>
+  </view>
+</view>

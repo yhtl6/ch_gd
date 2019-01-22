@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>超市农产品追溯系统</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />    <![endif]-->
+
+   <%include public_css.ejs%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden;padding-top:50px;">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <%include left_menu%>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        
+        <%include top_nav%>
+        <!--右侧部分结束-->
+    </div>
+
+    <!-- 全局js -->
+   <%include public_js.ejs%>
+
+    <!-- 自定义js -->
+    <script src="/public/js/hAdmin.js?v=4.1.0"></script>
+    <script type="text/javascript" src="/public/js/index.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="/public/js/plugins/pace/pace.min.js"></script>
+    <script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+</body>
+<script>
+    //初始化菜单
+    var vue_obj = new Vue({
+        el:"#left-menu",
+        data:{
+            menu:'<%=ctx.session.m_user_info.menu%>'
+        }
+    })
+    
+    //退出
+    function logout() {
+        swal({
+            title: "退出登录",
+            text: "您确定要退出登录吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText:"取消",
+            closeOnConfirm: false
+        }, function () {
+             $.get("/admin/user/dologout",function(res){
+                 if(res.errno==0){
+                     swal("退出成功！", "", "success");
+                     setTimeout(function(){
+                         window.location.href='/admin/user/tologin';
+                     },1000);
+                 }else{
+                     swal("退出失败！", res.msg, "error");
+                 }
+             });
+        });
+    }
+</script>
+
+</html>

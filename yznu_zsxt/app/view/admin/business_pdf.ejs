@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>业务申请</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<style>
+    .table{
+        margin-bottom: 0;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #20a0ff;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+
+
+                            <div style="background-color: white">
+                                <div style="font-size: 24px;font-weight: bold;color: black;text-align:center;padding-top: 15px;">市场化零售客户用电业务办理确认书</div>
+
+                                <div style="font-size: 20px;margin-left: 20%;padding-top: 60px;color:black">
+                                    <u>&nbsp;&nbsp;&nbsp;<%=supply_ent_name%>&nbsp;&nbsp;&nbsp;</u>   供电公司：
+                                </div>
+
+                                <div style="font-size: 18px;margin-left: 20%;padding-top: 15px;color:black;text-indent: 4rem;margin-right: 20%;line-height: 300%;word-break:break-all;">
+                                    用电人&nbsp;
+                                    <u><%=user_name%></u>
+                                    （在供电公司的用户编号<u>&nbsp;&nbsp;<%=user_code%>&nbsp;&nbsp;</u>
+                                    ，用电地址位于<u>&nbsp;&nbsp;<%=use_address%>&nbsp;&nbsp;</u>）申请办理<u>&nbsp;&nbsp;<%=business_type%>&nbsp;&nbsp;</u>
+                                    （高压增容/减容/减容恢复/暂停/暂停恢复/暂换/暂换恢复/改压/改类/迁址/移表/暂拆/复装/更名/过户/分户/并户/销户）业务。用电人
+                                    已按照《三方购售电合同》约定告知我公司，并由我公司确认。请予以办理。
+                                </div>
+
+                                <div style="text-align: right;margin-right: 20%;font-size: 18px;padding-top: 80px;color:black;line-height: 200%">
+                                    售电公司（签章）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;  月&nbsp;&nbsp;&nbsp;&nbsp;  日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+        <script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+        <!--图片上传-->
+        <script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+        <script>
+
+
+
+        </script>
+
+
+</body>
+
+</html>

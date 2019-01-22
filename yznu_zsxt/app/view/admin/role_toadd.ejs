@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 表单验证 jQuery Validation</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+
+</head>
+
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content animated fadeInRight" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>角色新增</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+                            <div class="form-group" >
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>角色代码：</label>
+                                <div class="col-sm-3">
+                                    <input  v-model="form.code" name="code" class="form-control" placeholder="请输入角色代码" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>描述：</label>
+                                <div class="col-sm-3">
+                                    <input  v-model="form.description" name="description" class="form-control" type="text" placeholder="请输入角色描述" aria-required="true" aria-invalid="false"
+                                        class="valid">
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>菜单选择：</label>
+                                            <div class="col-sm-3">
+                                                <label class="checkbox-inline i-checks" v-for="checkbox in options" style="margin-left: 20px;"  >
+                                                    <input name="options"   type="checkbox" :value="checkbox.id" v-model="select">{{ checkbox.name }}</label>
+                                            </div>
+
+                            </div>
+
+                            <div class="form-group" style="margin-left: 10%">
+                                <input type="hidden"  name="menus" v-model="select" >
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" >
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" :disabled=" addbutton == false">提交</button>
+                                    <button class="btn btn-default" type="button" onclick="window.history.go(-1)" style="margin-left:30px">取消</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+
+
+
+    <script>
+            var app;
+            var menus;
+            $().ready(function () {
+
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    data: {
+                        form:{
+                            code : '',
+                            description : ''
+                        },
+                        addbutton:true,
+                        options:[],
+                        select:[]
+                    }
+                })
+                //菜单选项
+                $.get( "/admin/menu/datalist", function( data ) {
+                    app.options = data;
+                });
+
+                //表单提交
+                var icon = "<i class='fa fa-times-circle'></i> ";
+                $("#dataform").validate({
+                    submitHandler: function (form) {
+                        var checkbox_length=$("input[type='checkbox']:checked").length;
+                        if(checkbox_length==0){
+                                alert("请选择菜单权限！");
+                        }else {
+                            app.addbutton = false;
+                            $.post("/admin/role/dataadd?menus=" + app.select, app.form, function (data) {
+                                if (data.errno == 0) {
+                                    toastr.success('新增角色成功!', '成功')
+                                    setTimeout(function () {
+                                        window.location.href = '/admin/role/tolist'
+                                    }, 1000);
+
+                                } else {
+                                    toastr.error(data.msg, '失败')
+                                }
+                                app.addbutton = true;
+
+
+                            });
+                        }
+                    },
+                    //表单验证规则
+                    rules: {
+                        code: "required",
+                        description: "required",
+                        menus :"required"
+
+                    },
+                    messages: {
+                        code: icon + "请输入角色代码",
+                        description: {
+                            required: icon + "请输入角色描述",
+                        },
+                        menus : icon+"请选择菜单权限"
+                    }
+                });
+
+            });
+        </script>
+
+
+</body>
+
+</html>

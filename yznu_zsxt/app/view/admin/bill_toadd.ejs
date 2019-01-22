@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>账单结算新增</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css"/>
+
+</head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>账单结算新增</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>企业名称：</label>
+                                <div class="col-sm-3">
+                                    <select data-placeholder="企业名称" class="form-control m-b chosen-select" id="ent_id" name="ent_id" v-model="form.ent_id" style="margin-left:5px;width:300px;">
+                                        <option value="">=选择企业名称=</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>账单月份：</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" readonly="" aria-invalid="bill_date" name="bill_date" placeholder="账单月份" id="bill_date" v-model="form.bill_date">
+                                </div>
+                            </div>
+                            <!--<div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>长协电量：（万千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c1"  type="text" class="form-control" name="c1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>结算电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c2"  type="text" class="form-control" name="c2">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>月度竞价电量：（万千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c3"  type="text" class="form-control" name="c3">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>结算电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c4"  type="text" class="form-control" name="c4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>合计电量：（万千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c5"  type="text" class="form-control" name="c5">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>加权结算电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c6"  type="text" class="form-control" name="c6">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>包正向偏差：（百分比 %）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c7"  type="text" class="form-control" name="c7">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>超过偏差部分结算电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c8"  type="text" class="form-control" name="c8">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>偏差考核电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c9"  type="text" class="form-control" name="c9">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>包负向偏差：（百分比 %）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c10"  type="text" class="form-control" name="c10">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>超过偏差部分结算电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c11"  type="text" class="form-control" name="c11">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>偏差考核电价：（元/千瓦时）</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.c12"  type="text" class="form-control" name="c12">
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">账单内容：</label>
+                                <div class="col-sm-8 form-control-static"  style="text-align: left;">
+                                    <textarea id="editor" placeholder="请输入内容" v-model="form.content" name="content" autofocus required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" @click="save()" :disabled=" addbutton == false" style="margin-left:30px">确定</button>
+                                    <button class="btn btn-default" type="button" onclick="window.history.go(-1)" style="margin-left:30px">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+        <!--下拉多选-->
+        <script src="/public/js/plugins/chosen/chosen.jquery.js" ></script>
+        <script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+        <script>
+
+            $().ready(function () {
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    mounted: function () {
+                    },
+                    data: {
+                        form:{
+                            ent_id: '<%=ent_id%>' ,
+                            bill_date : (new Date()).Format('yyyyMM') ,
+                            c1 : '',
+                            c2 : '',
+                            c3 : '',
+                            c4 : '',
+                            c5 : '',
+                            c6 : '',
+                            c7 : '',
+                            c8 : '',
+                            c9 : '',
+                            c10 : '',
+                            c11 : '',
+                            c12 : '',
+                            content:'',
+                        },
+                        comps:[],
+                        icon : "<i class='fa fa-times-circle'></i>" ,
+                        imageUrl : '' ,
+                        addbutton : true
+
+                    },
+                    methods: {
+                        getComps(){
+                            $.get("/admin/bill/getcomps",function (res) {
+                                    if(res.code == 200){
+                                        for(var i=0;i<(res.data).length;i++){
+                                            if(res.data[i].id != app.form.ent_id)
+                                                $("#ent_id").append("<option value='"+res.data[i].id+"'>"+res.data[i].name+"</option>");
+                                            else{
+                                                $("#ent_id").append("<option value='"+res.data[i].id+"' selected>"+res.data[i].name+"</option>");
+                                            }
+                                        }
+                                        $('.chosen-select').chosen();
+                                        $(".chosen-select").chosen().change(function(){
+                                            //do something...
+                                            app.form.ent_id = $("#ent_id").val();
+                                        });
+                                    }
+                                });
+                        },
+                        save(key,obj){
+                            this.form.content = this.editor.getValue();
+                            $("#dataform").validate({
+                                submitHandler: function (form) {
+                                    app.addbutton = false;
+                                    $.post("/admin/bill/add",
+                                            app.form,function (res) {
+                                                if(res.code == 200){
+                                                    toastr.success('新增成功!', '成功');
+                                                    setTimeout(function(){
+                                                        window.location.href = '/admin/bill/tolist?'+'page=<%=page%>&search=<%=search%>&pageSize=<%=pageSize%>&search_date=<%=search_date%>&search_status=<%=search_status%>&search=<%=search%>';
+                                                    },1000);
+                                                }else{
+                                                    app.addbutton = true;
+                                                    toastr.error(res.msg,'失败');
+                                                }
+                                            });
+
+                                },
+                                rules : {
+                                    ent_id : "required",
+                                    bill_date : "required",
+                                    c1 : "required",
+                                    c2 : "required",
+                                    c3 : 'required',
+                                    c4 : 'required',
+                                    c5 : 'required',
+                                    c6 : 'required',
+                                    c7 : 'required',
+                                    c8 : 'required',
+                                    c9 : 'required',
+                                    c10 : 'required',
+                                    c11 : 'required',
+                                    c12 : 'required',
+                                    content:'required'
+                                },
+                                messages : {
+                                    ent_id: app.icon + "请选择企业名称",
+                                    bill_date : app.icon + "请选择账单月份",
+                                    c1 : app.icon + "请正确填写",
+                                    c2 : app.icon + "请正确填写",
+                                    c3 : app.icon + "请正确填写",
+                                    c4 : app.icon + "请正确填写",
+                                    c5 : app.icon + "请正确填写",
+                                    c6 : app.icon + "请正确填写",
+                                    c7 : app.icon + "请正确填写",
+                                    c8 : app.icon + "请正确填写",
+                                    c9 : app.icon + "请正确填写",
+                                    c10 : app.icon + "请正确填写",
+                                    c11 : app.icon + "请正确填写",
+                                    c12 : app.icon + "请正确填写",
+                                    content:app.icon+"请填写账单内容"
+                                }
+                            });
+
+                        },
+                        simditor(){ //初始化编辑器
+                            this.editor=new Simditor({
+                                textarea: $('#editor'),
+                                toolbar:[
+                                    'title',
+                                    'bold',
+                                    'italic',
+                                    'underline',
+                                    'strikethrough',
+                                    'fontScale',
+                                    'color',
+                                    'ol'   ,
+                                    'ul'  ,
+                                    'blockquote',
+                                    'code'   ,
+                                    'table',
+                                    'link',
+                                    'image',
+                                    'hr'  ,
+                                    'indent',
+                                    'outdent',
+                                    'alignment'
+                                ],
+                                toolbarFloat:true,
+                                upload:{
+                                    url:"/common/upload/img?type=480"
+                                },
+                            });
+                        }
+                    }
+                })
+                app.getComps();
+                laydate.render({
+                    elem: '#bill_date',
+                    format: 'yyyyMM',
+                    type: 'month',
+                    value:(new Date()).Format('yyyyMM'),
+                    done: (datas) => {
+                        setTimeout(function () {
+                            app.form.bill_date = datas;
+                        },0);
+
+                    }
+                });
+                app.simditor();//初始化编辑器
+            });
+
+        </script>
+
+
+</body>
+
+</html>

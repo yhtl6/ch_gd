@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>管理员修改</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+</head>
+
+<body class="gray-bg" >
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>管理员修改</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="dataform">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>账号：</label>
+                            <div class="col-sm-3">
+                                <input  v-model="form.user_name" name="user_name" class="form-control" type="text" readonly="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>角色：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="role" v-model="form.m_role_id">
+                                    <option value="">-请选择用户角色-</option>
+                                    <option v-for="option in options" v-bind:value="option.id">
+                                        {{ option.description }}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>姓名：</label>
+                            <div class="col-sm-3">
+                                <input  v-model="form.nick_name" name="nick_name" placeholder="请输入姓名" class="form-control" type="text" aria-required="true" aria-invalid="false"
+                                        class="valid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>电话：</label>
+                            <div class="col-sm-3">
+                                <input  v-model="form.mobile" name="mobile" id="mobile" placeholder="请输入电话" class="form-control" type="text" aria-required="true" aria-invalid="true"
+                                        class="error">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">登录密码：</label>
+                            <div class="col-sm-3">
+                                <input  v-model="form.password" name="password" placeholder="请输入登录密码（6到16位）" class="form-control" type="password">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit" :disabled=" addbutton == false">提交</button>
+                                <button class="btn btn-default" type="button" @click="goFather" style="margin-left:30px">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+
+
+
+<script>
+    var app;
+    $().ready(function () {
+        //初始化vue
+        app = new Vue({
+            el: '#app',
+            data: {
+                form:{
+                    id:'<%=data.id%>',
+                    user_name: '<%=data.user_name%>',
+                    nick_name: '<%=data.nick_name%>',
+                    mobile: '<%=data.mobile%>',
+                    m_role_id: '<%=data.m_role_id%>',
+                    password: '',
+                },
+                addbutton:true,
+                options:[]
+
+            },
+            methods:{
+                goFather(){
+                    window.location.href='/admin/user/tolist?page=<%=page%>&search=<%=search%>&pageSize=<%=pageSize%>';
+                }
+            }
+        })
+
+        //角色select获取
+        $.get( "/admin/role/getRole", function( data ) {
+            app.options = data;
+        });
+        //表单提交
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#dataform").validate({
+            submitHandler: function (form) {
+                app.addbutton = false;
+                $.post("/admin/user/upuser",app.form, function( data ) {
+                    if(data.errno == 0){
+                        toastr.success('修改用户成功!', '成功');
+                        setTimeout(function () {
+                            window.location.href='/admin/user/tolist?page=<%=page%>&search=<%=search%>&pageSize=<%=pageSize%>';
+                        }, 1000);
+
+                    }else if(data.errno == 2){
+                        toastr.error(data.msg,'失败');
+                    }
+                    app.addbutton = true;
+                });
+
+            },
+
+            rules: {
+                user_name: "required",
+                nick_name: "required",
+                password: {
+                    required: false,
+                    minlength:6,
+                    maxlength:16
+                },
+                mobile: {
+                    required: true,
+                    isMobile:"#mobile"
+                },
+                role: {
+                    required: true
+                }
+            },
+            messages: {
+                user_name: icon + "请输入您的账号",
+                nick_name: {
+                    required: icon + "请输入您的姓名",
+                },
+                password: {
+                    minlength:icon + "密码不能少于6位",
+                    maxlength:icon + "密码不能超过16位"
+                },
+                mobile: {
+                    required:icon + "请输入您的手机号码",
+                },
+                role: {
+                    required: icon + "请选择您的角色",
+
+                }
+            }
+    });
+    $.validator.addMethod("isMobile", function(value, element) {
+            var length = value.length;
+            var mobile =/^1[3456789]\d{9}$/;
+            return this.optional(element) || (length == 11 && mobile.test(value));
+        }, icon +"请正确填写您的手机号码");
+    });
+</script>
+
+
+</body>
+
+</html>

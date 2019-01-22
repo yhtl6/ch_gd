@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>申报截止日期编辑</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+</head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>申报截止日期编辑</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>申报月份：</label>
+                                <div class="col-sm-3">
+                                    <label>{{format(form.apply_date)}}</label>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>申报截止日期：</label>
+                                <div class="col-sm-3">
+                                    <!--<input v-model="form.end_date"  type="text" class="form-control" name="end_date" aria-required="true" aria-invalid="false" class="valid">-->
+                                    <input class="laydate-icon form-control" readonly="" aria-invalid="end_date"  v-model="form.end_date" name="end_date"  placeholder="申报截止日期" id="start">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" @click="save()" :disabled=" addbutton == false" style="margin-left:30px">保存</button>
+                                    <button class="btn btn-default" type="button" onclick="window.history.go(-1)" style="margin-left:30px">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+        <script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+        <!--图片上传-->
+        <script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+        <script>
+
+            $().ready(function () {
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    data: {
+                        form:{
+                            id:'<%=data.id%>',
+                            apply_date: '<%=data.apply_date%>',
+                            end_date:'<%=data.end_date%>'
+                        },
+                        editor:'',
+                        icon:"<i class='fa fa-times-circle'></i>",
+                        imageUrl: '',
+                        addbutton:true
+                    },
+                    methods: {
+                        format(val){
+                            return val.substring(0,4)+"年"+val.substring(4,6)+"月";
+                        },
+                        save(){
+                            $("#dataform").validate({
+                                submitHandler: function (form) {
+                                    app.addbutton = false;
+                                    app.form.end_date=$("#start").val();
+                                    $.post("/admin/applydateset/update",
+
+                                            app.form,function (res) {
+                                                if(res.errno==0){
+                                                    toastr.success('修改成功!', '成功');
+                                                    setTimeout(function(){
+                                                        window.location.href = '/admin/applydateset/tolist?'+'page=<%=page%>&pageSize=<%=pageSize%>';
+                                                    },1000);
+                                                }else{
+                                                    toastr.error(res.msg,'失败');
+                                                }
+                                                app.addbutton = true;
+                                            });
+
+                                },
+                                rules : {
+                                    end_date:"required"
+                                },
+                                messages : {
+                                    end_date:app.icon+"请选择申报截止日期"
+                                }
+                            });
+
+                        }
+                    }
+                })
+
+                laydate.render({
+                    elem: '#start',
+                    format: 'yyyy-MM-dd',
+                    done: function (datas) {
+                        app.form.end_date =datas;
+                    }
+                });
+            });
+        </script>
+
+
+</body>
+
+</html>

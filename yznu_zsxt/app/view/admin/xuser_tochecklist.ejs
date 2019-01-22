@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>用户审核</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>用户审核</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+
+                <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <!--<h4 class="example-title">工具条</h4>-->
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                <form role="form" class="form-inline" style="margin-top:0px" id="search-form">
+                                    <label>审核状态:</label>
+                                    <select class="input-sm form-control input-s-sm inline" name="status" id="status" style="font-size: 13px;" onchange="refresh_table(true)">
+                                        <option value="">全部</option>
+                                        <option value="0" <%if(status=='0'){%> selected="selected" <%}%>>待审核</option>
+                                        <option value="1" <%if(status=='1'){%> selected="selected" <%}%>>已通过</option>
+                                        <option value="2" <%if(status=='2'){%> selected="selected" <%}%>>已驳回</option>
+                                    </select>
+                                    <input placeholder="搜索包括企业名称、企业户号、姓名、身份证号、手机号码" class="form-control" value="<%=search%>" name="search" style="margin-left:5px;width:400px;" id="search" onchange="refresh_table(true)">
+
+                                    <button class="btn btn-info" type="button" onclick="refresh_table(true)" style="margin-top:5px;">搜索</button>
+                                </form>
+
+                            </div>
+                            <table id="rectable" data-mobile-responsive="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="row" data-formatter="rowFormatter">序号</th>
+                                    <th data-field="ent_name">企业名称</th>
+                                    <th data-field="numbers">企业户号</th>
+                                    <th data-field="username">姓名</th>
+                                    <th data-field="ids">身份证号</th>
+                                    <th data-field="mobile">手机号码</th>
+                                    <th data-field="status" data-formatter="statusFormatter">审核状态</th>
+                                    <th data-field="id"  data-formatter="operateFormatter">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Example Toolbar -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+
+<!-- Bootstrap table -->
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Peity -->
+<script src="/public/js/demo/bootstrap-table-demo.js"></script>
+<script>
+    var page=1;
+    var pageSize=10;
+    (function () {
+        var page=1;
+        var pageSize=10;
+        if(!isEmpty('<%=page%>')){
+            page=parseInt('<%=page%>');
+        }
+        if(!isEmpty('<%=pageSize%>')){
+            pageSize=parseInt('<%=pageSize%>');
+        }
+        $('#rectable').bootstrapTable({
+            url: "/admin/xuser/checklist",
+            search: false,
+            showRefresh: false,
+            showToggle: true,
+            showColumns: true,
+            queryParams:queryParams,
+            pagination: true,
+            sidePagination: 'server',
+            pageNumber: page,
+            pageSize: pageSize,
+            toolbar: '#data_tool',
+            striped: true
+        })
+    })();
+    function operateFormatter(value,row, index) {
+        var addOne = '';
+        var addTwo = '';
+        if(row.status == 0){
+            addOne = "<button type='button' class='btn btn-outline btn-success' style='margin-left:10px' onclick='changeStatus(\""+value+"\",1)'>通过</button>";
+            addTwo = "<button type='button' class='btn btn-outline btn-danger' style='margin-left:10px' onclick='changeStatus(\""+value+"\",2)'>驳回</button>";
+        }
+        return [
+            addOne,addTwo
+        ].join('');
+    }
+
+
+    function rowFormatter(value,row, index){
+        return [index+1].join('');
+    }
+
+    //修改审核状态
+    function changeStatus(val,status){
+        $.get("/admin/xuser/changestatus?id="+val+"&status="+status,function (res) {
+            if(res.errno==0){
+                if(status == 1){
+                    swal("通过成功！", "您已经成功通过了该用户", "success");
+                }else if( status == 2){
+                    swal("驳回成功！", "您已经成功驳回了该用户", "success");
+                }
+                refresh_table();//刷新表单
+            }else{
+                swal("操作失败！", res.msg, "error");
+            }
+        })
+    }
+
+    //form表单数据转json
+    function serializeObject(form){
+        var obj=new Object();
+        $.each(form.serializeArray(),function(index,param){
+            if(!(param.name in obj)){
+                obj[param.name]=param.value;
+            }
+        });
+        return obj;
+    }
+    function statusFormatter(value,row,index){
+        var status = "";
+        if(row.status == '0'){
+            status = "待审核";
+        }else if(row.status == '1'){
+            status = "已通过";
+        }else if(row.status == '2'){
+            status = "已驳回";
+        }
+        return [status].join('');
+    }
+    //搜索条件
+    function queryParams(params) {
+        var data=serializeObject($("#search-form")); //获取form表单参数 JSON格式
+        data.limit=params.limit;
+        data.offset=params.offset;
+        return data;
+    }
+    //刷新表单
+    function refresh_table(type){
+        //搜索按钮
+        if(!isEmpty(type)){
+            var params =$("#rectable").bootstrapTable('getOptions');
+            params.queryParams.limit=0;
+            params.queryParams.offset=pageSize;
+            $('#rectable').bootstrapTable('refresh', params);
+        }else{ //普通刷新
+            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                silent: true
+            });
+        }
+    }
+    //用户列表导出
+  /*  function exp(){
+        var is_forbid = $("#is_forbid").val();
+        var is_receive = $("#is_receive").val();
+        var is_write = $("#is_write").val();
+        var search = $("#search").val();
+        window.open("/admin/xuser/expUser?is_forbid="+is_forbid+"&is_receive="+is_receive+"&is_write="+is_write+"&search="+search);
+    }*/
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>供货商编辑</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+</head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>供货商编辑</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>名称：</label>
+                                <div class="col-sm-3">
+                                    <input  v-model="form.name" name="name" class="form-control" type="text" aria-required="true" aria-invalid="false"
+                                        class="valid" id="name" required maxlength="20">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>联系方式：</label>
+                                <div class="col-sm-3">
+                                    <input v-model="form.phone"  type="text" class="form-control" name="phone" id="phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>供货地：</label>
+                                <div class="col-sm-2">
+                                    <select id="province" v-model="form.province" class="form-control m-b" name="province" onchange="provinceOnChange()" required>
+                                        <option value="" selected="selected" >-请选择省份-</option>
+                                        <option  v-for="option in options" v-bind:value="option.id"   >{{option.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select id="city" class="form-control m-b" name="city" v-model="form.city" required >
+                                        <option value="" >-请选择城市-</option>
+                                        <option v-for="option in citys" v-bind:value="option.id" > {{option.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input v-model="form.address" placeholder="请输入详细地址"  type="text" class="form-control" name="address" required>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px dashed #e7eaec;color: #ffffff;background-color: #ffffff;height: 1px;margin: 20px 0;">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" @click="save()" :disabled=" addbutton == false" style="margin-left:30px">保存</button>
+                                    <button class="btn btn-default" type="button" onclick="window.history.go(-1)" style="margin-left:30px">取消</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+        <!--图片上传-->
+        <script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+        <script>
+
+            $().ready(function () {
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    data: {
+                        form:{
+                            id:'<%=data.id%>',
+                            name: '<%=data.name%>',
+                            phone : '<%=data.phone%>',
+                            province:'<%=data.province%>',
+                            city:'<%=data.city%>',
+                            address:'<%=data.address%>'
+                        },
+                        editor : '' ,
+                        icon : "<i class='fa fa-times-circle'></i>" ,
+                        imageUrl : '' ,
+                        addbutton : true,
+                        options:[],
+                        citys:[]
+
+                    },
+                    methods: {
+                        getcity(){
+                            //省市联动
+                            $.get( "/admin/supplier/getcity", function( data ) {
+                                console.info(data)
+                                app.options = data;
+                                $.get( "/admin/supplier/getcity?parent_id=<%=data.province%>", function( data2 ) {
+                                    app.citys = data2;
+                                    app.form.city = '<%=data.city%>'
+                                });    
+
+                            }); 
+                        },
+                        save(){
+                            $("#dataform").validate({
+                                submitHandler: function (form) {
+                                    $.post("/admin/supplier/update",
+                                        app.form,function (res) {
+                                            if(res.errno=='100'){
+                                                toastr.success('修改成功!', '成功');
+                                                setTimeout(function(){
+                                                    window.location.href = '/admin/supplier/tolist?'+'page=<%=page%>&search=<%=search%>&pageSize=<%=pageSize%>';
+                                                },1000);
+                                            }else{
+                                                toastr.error(res.msg,'失败');
+                                            }
+                                            app.addbutton = true;
+                                        });
+                                },
+                                rules : {
+                                    phone : {
+                                        required:true,
+                                        isMobile:"#phone"
+                                    },
+                                },
+                                messages : {
+                                    phone: {
+                                        required:app.icon + "请输入联系方式",
+                                        isMobile:app.icon+"请正确填写联系方式"        
+                                    },
+                                }
+                            });
+                            //自定义验证规则
+                            $.validator.addMethod("isMobile", function(value, element) {
+                                var length = value.length;
+                                var RegExp = /^((0\d{2,3}-\d{7,8})|(1[356784]\d{9}))$/;
+                                return this.optional(element) || (RegExp.test(value));
+                            }, app.icon +"请正确填写联系方式");
+                        },
+                    }
+                })
+                app.getcity();
+            });
+            function provinceOnChange(){
+                var parent_id =  $("select[name='province']").val();
+                $.get( "/admin/supplier/getcity?parent_id="+parent_id,
+                    function(data){
+                        app.citys = data;
+                    }
+                );
+            }
+        </script>
+
+
+</body>
+
+</html>

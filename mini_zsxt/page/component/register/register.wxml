@@ -1,0 +1,52 @@
+<!--page/component/register/register.wxml-->
+<view class="body-view">
+  <view class="bg-view">
+    <image src='{{server}}/public/imgs/qrindex/bg-login.png{{params}}'></image>
+  </view>
+  <view class='bigkuang'>
+    <view class="login-all">
+      <view class="login-view">
+        <view class="login-row">
+          <view class="logo-view">
+            <image src="../../../image/logo.svg" style='border-radius: 50%;'></image>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="logo-txt-view">
+            <view class="logo-txt">xxxx超市</view>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="input-view">
+            <view class="input">
+              <input placeholder-class='placeholder' placeholder='请输入账号' bindblur='changeaccount' bindconfirm='changeaccount' bindinput='changeaccount' type='text' />
+            </view>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="input-view">
+            <view class="input">
+              <input placeholder-class='placeholder' placeholder='请输入登录密码' bindblur='changepassword' bindconfirm='changepassword' bindinput='changepassword' type='password' />
+            </view>
+          </view>
+        </view>
+        <view class="login-row">
+          <view class="input-view">
+            <view class="input">
+              <input placeholder-class='placeholder' placeholder='请再输入一次登录密码' bindblur='changerepassword' bindconfirm='changerepassword' bindinput='changerepassword' type='password' />
+            </view>
+          </view>
+        </view>
+        <view class="login-btn">
+          <view class="submit-btn">
+            <view class="txt" bindtap='confirm' disabled='{{is_confirm}}' loading='{{is_confirm}}'>立即注册</view>
+          </view>
+        </view>
+        <view class='remeber' bindtap='to_remeber'>
+          <view class='txt2'>登录</view>
+        </view>
+
+      </view>
+    </view>
+  </view>
+</view>

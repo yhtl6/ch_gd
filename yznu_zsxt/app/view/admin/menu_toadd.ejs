@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>菜单新增</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <!--图片上传-->
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/webuploader/webuploader-demo.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/plugins/simditor/simditor.css" />
+</head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content" id="app">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>菜单新增</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="dataform">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>排序：</label>
+                                <div class="col-sm-3">
+                                    <input  v-model="form.sort" name="sort" id="sort" class="form-control" type="text" aria-required="true" aria-invalid="false"
+                                            class="valid">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>菜单名：</label>
+                                <div class="col-sm-3">
+                                    <input  v-model="form.name" name="name" id="name" class="form-control" type="text" aria-required="true" aria-invalid="false"
+                                        class="valid">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>菜单uri：</label>
+                                <div class="col-sm-4">
+                                    <input v-model="form.uri"  type="text" class="form-control" name="uri" id="uri">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" @click="save('0',this)" :disabled=" addbutton == false" style="margin-left:30px">保存</button>
+                                    <button class="btn btn-default" type="button" onclick="javascript:window.history.go(-1);return false;" style="margin-left:30px">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/public/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/public/js/plugins/validate/messages_zh.min.js"></script>
+
+        <!-- simditor -->
+        <script type="text/javascript" src="/public/js/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="/public/js/plugins/simditor/simditor.js"></script>
+
+        <!--图片上传-->
+        <script src="/public/js/plugins/webuploader/webuploader.js"></script>
+
+        <script>
+            var pid="<%=pid%>";
+            $().ready(function () {
+                //初始化vue    
+                app = new Vue({
+                    el: '#app',
+                    data: {
+                        form:{
+                            sort:'0',
+                            name: '' ,
+                            uri : '' ,
+                            pid : '<%=pid%>',
+                            pmenus:[]
+                        },
+                        icon : "<i class='fa fa-times-circle'></i>" ,
+                        addbutton : true
+
+                    },
+                    methods: {
+
+                        save(key,obj){
+
+                            $("#dataform").validate({
+                                submitHandler: function (form) {
+                                    app.addbutton = false;
+                                    $.post("/admin/menu/addmenu",
+                                        app.form,function (res) {
+                                            if(res.errno==0){
+                                                toastr.success('保存成功!', '成功');
+                                                setTimeout(function(){
+                                                    if(pid == undefined || pid == null || pid ==""  || pid =="0"){
+                                                        window.location.href = '/admin/menu/tomenulist';
+                                                    }else{
+                                                        window.location.href = '/admin/menu/tomenulist?pid='+pid;
+                                                    }
+
+                                                },1000);
+                                            }else{
+                                                app.addbutton = true;
+                                                toastr.error(res.msg,'失败');
+                                            }
+                                        });
+
+                                },
+                                rules : {
+                                    name : "required",
+                                    uri : "required",
+                                    sort:"required"
+                                },
+                                messages : {
+                                    name: app.icon + "请填写菜单名",
+                                    uri : app.icon + "请填写菜单uri",
+                                    sort:app.icon+"请填写菜单排序"
+                                }
+                            });
+
+                        }
+                    }
+                })
+
+
+            });
+        </script>
+
+
+</body>
+
+</html>

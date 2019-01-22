@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>员工列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>员工列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+
+                <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <!--<h4 class="example-title">工具条</h4>-->
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                <form role="form" class="form-inline" style="margin-top:0px" id="search-form">
+                                    <button class="btn btn-info" type="button" onclick="window.history.go(-1)" style="margin-top:5px;">返回</button>&nbsp;&nbsp;&nbsp;
+                                    <label><%=name%></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input placeholder="搜索包括企业名称、企业户号、姓名、身份证号、手机号码" class="form-control" value="<%=search%>" name="search" style="margin-left:5px;width:400px;" id="search" onchange="refresh_table(true)">
+
+                                    <button class="btn btn-info" type="button" onclick="refresh_table(true)" style="margin-top:5px;">搜索</button>
+                                    <button class="btn btn-info" type="button" onclick="toadd()" style="margin-top:5px;">新增</button>
+                                </form>
+
+                            </div>
+                            <table id="rectable" data-mobile-responsive="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="row" data-formatter="rowFormatter">序号</th>
+                                    <th data-field="ent_name">企业名称</th>
+                                    <th data-field="numbers">企业户号</th>
+                                    <th data-field="username">姓名</th>
+                                    <th data-field="ids">身份证号</th>
+                                    <th data-field="mobile">手机号码</th>
+                                    <th data-field="id"  data-formatter="operateFormatter">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Example Toolbar -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+
+<!-- Bootstrap table -->
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Peity -->
+<script src="/public/js/demo/bootstrap-table-demo.js"></script>
+<script>
+    var page=1;
+    var pageSize=10;
+    (function () {
+        var page=1;
+        var pageSize=10;
+        if(!isEmpty('<%=page%>')){
+            page=parseInt('<%=page%>');
+        }
+        if(!isEmpty('<%=pageSize%>')){
+            pageSize=parseInt('<%=pageSize%>');
+        }
+        $('#rectable').bootstrapTable({
+            url: "/admin/xuser/getlist?ent_id=<%=ent_id%>",
+            search: false,
+            showRefresh: false,
+            showToggle: true,
+            showColumns: true,
+            queryParams:queryParams,
+            pagination: true,
+            sidePagination: 'server',
+            pageNumber: page,
+            pageSize: pageSize,
+            toolbar: '#data_tool',
+            striped: true
+        })
+    })();
+    function operateFormatter(value,row, index) {
+        var addPublic = '';
+
+        if(row.is_active == 0){
+            addPublic = "<button type='button' class='btn btn-outline btn-warning' style='margin-left:10px' onclick='changeForbid(\""+value+"\",1)'>启用</button>";
+        }else if(row.is_active == 1){
+            addPublic="<button type='button' class='btn btn-outline btn-success' style='margin-left:10px' onclick='changeForbid(\""+value+"\",0)'>禁用</button>";
+        }
+        return [
+            "<button type='button' class='btn btn-sm btn-primary' onclick='toreset(\""+value+"\")' style='margin-left:10px'>重置密码</button>",
+            "<button type='button' class='btn btn-sm btn-primary' onclick='todel(\""+value+"\")' style='margin-left:10px'>删除</button>",
+            addPublic
+        ].join('');
+    }
+
+
+    function rowFormatter(value,row, index){
+        return [index+1].join('');
+    }
+
+    //禁启用用户
+    function changeForbid(val,is_active){
+        $.get("/admin/xuser/changeactive?id="+val+"&is_active="+is_active,function (res) {
+            if(res.errno==0){
+                if(is_active == 0){
+                    swal("禁用成功！", "您已经成功禁用了该用户", "success");
+                }else if( is_forbid == 1){
+                    swal("启用成功！", "您已经成功启用了该用户", "success");
+                }
+                refresh_table();//刷新表单
+            }else{
+                swal("操作失败！", res.msg, "error");
+            }
+        })
+    }
+    //重置密码
+    function toreset(val) {
+        $.get("/admin/xuser/resetpsd?id="+val,function (res) {
+            if(res.errno==0){
+                swal("重置密码成功！", "您已经成功重置了密码", "success");
+                refresh_table();//刷新表单
+            }else{
+                swal("重置密码操作失败！", res.msg, "error");
+            }
+        })
+    }
+
+    //删除用户
+    function todel(val) {
+        $.get("/admin/xuser/del?id="+val,function (res) {
+            if(res.errno==0){
+                swal("用户删除成功！", "您已经成功删除了该用户", "success");
+                refresh_table();//刷新表单
+            }else{
+                swal("用户删除操作失败！", res.msg, "error");
+            }
+        })
+    }
+
+    /*
+     新增页面
+   */
+    function toadd(){
+        location.href='/admin/xuser/toadd?page='+$(".pagination .active a").text()
+            +"&pageSize="+$(".page-size").text()+"&search="+$("#search").val()+"&is_active="+$("#is_active").val();
+    }
+
+
+    //form表单数据转json
+    function serializeObject(form){
+        var obj=new Object();
+        $.each(form.serializeArray(),function(index,param){
+            if(!(param.name in obj)){
+                obj[param.name]=param.value;
+            }
+        });
+        return obj;
+    }
+    //搜索条件
+    function queryParams(params) {
+        var data=serializeObject($("#search-form")); //获取form表单参数 JSON格式
+        data.limit=params.limit;
+        data.offset=params.offset;
+        return data;
+    }
+    //刷新表单
+    function refresh_table(type){
+        //搜索按钮
+        if(!isEmpty(type)){
+            var params =$("#rectable").bootstrapTable('getOptions');
+            params.queryParams.limit=0;
+            params.queryParams.offset=pageSize;
+            $('#rectable').bootstrapTable('refresh', params);
+        }else{ //普通刷新
+            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                silent: true
+            });
+        }
+    }
+    //用户列表导出
+  /*  function exp(){
+        var is_forbid = $("#is_forbid").val();
+        var is_receive = $("#is_receive").val();
+        var is_write = $("#is_write").val();
+        var search = $("#search").val();
+        window.open("/admin/xuser/expUser?is_forbid="+is_forbid+"&is_receive="+is_receive+"&is_write="+is_write+"&search="+search);
+    }*/
+
+
+</script>
+</body>
+</html>

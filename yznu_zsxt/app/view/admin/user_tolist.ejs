@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - Bootstrap Table</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+        <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>管理员管理</h5>
+                
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+
+
+                    <div class="col-sm-12">
+                        <!-- Example Toolbar -->
+                        <div class="example-wrap">
+                            <!--<h4 class="example-title">工具条</h4>-->
+                            <div class="example">
+                                <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                    <button type="button" class="btn btn-outline btn-info" onclick="to_add();">
+                                        新增
+                                    </button>
+
+                                </div>
+                                <table id="boottable" data-mobile-responsive="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="user_name">管理员账号</th>
+                                            <th data-field="description">角色</th>
+                                            <th data-field="nick_name">姓名</th>
+                                            <th data-field="id"  data-formatter="operateFormatter">操作</th>
+
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Toolbar -->
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- 全局js -->
+    <%include public_js%>
+
+        <!-- 自定义js -->
+        <script src="/public/js/content.js?v=1.0.0"></script>
+
+
+        <!-- Bootstrap table -->
+        <script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+        <script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+        <script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+        <script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Peity -->
+        <script src="/public/js/demo/bootstrap-table-demo.js"></script>
+        <script src="/public/js/verification.js"></script>
+        <script>
+            (function () {
+                var page=1;
+                var pageSize=10;
+                if(!isEmpty('<%=page%>')){
+                    page=parseInt('<%=page%>');
+                }
+                if(!isEmpty('<%=pageSize%>')){
+                    pageSize=parseInt('<%=pageSize%>');
+                }
+                $('#boottable').bootstrapTable({
+                    url: "/admin/user/datalist",
+                    search: true,
+                    searchText:'a',
+                    pagination: true,
+                    showRefresh: true,
+                    showToggle: true,
+                    showColumns: true,
+                    sidePagination:'server',
+                    iconSize: 'outline',
+                    pageNumber:page,
+                    pageSize:pageSize,
+                    toolbar: '#data_tool',
+                    striped:true,
+                    searchText:'',
+                    icons: {
+                        refresh: 'glyphicon-repeat',
+                        toggle: 'glyphicon-list-alt',
+                        columns: 'glyphicon-list'
+                    }
+                });
+                var $search = $('.fixed-table-toolbar .search input');
+                $search.attr('placeholder', '请输入账号或姓名');
+                if(!isEmpty('<%=search%>')){
+                   $("#boottable").bootstrapTable('resetSearch','<%=search%>');
+                }
+            })();
+
+            function operateFormatter(value,row, index) {
+                return [
+                    "<button type='button' class='btn btn-sm btn-primary' onclick='to_edit(\""+value+"\")'>编辑</button>",
+                    "<button type='button' class='btn btn-sm btn-danger' style='margin-left:20px' onclick='to_del(\""+value+"\")'>删除</button>"
+                ].join('');
+            }
+
+            function to_add(){
+                location.href = '/admin/user/toadd';
+            }
+            function to_edit(val){
+                location.href = '/admin/user/toedit?id='+val+"&page="+$(".pagination .active a").text()
+                        +"&search="+$('.fixed-table-toolbar .search input').val()+"&pageSize="+$(".page-size").text();
+            }
+            function to_del(val){
+                swal({
+                    title: "您确定要删除这条信息吗",
+                    text: "删除后将无法恢复，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "删除",
+                    cancelButtonText:"取消",
+                    closeOnConfirm: false
+                }, function () {
+                   $.get("/admin/user/deluser?id="+val,function(res){
+                        if(res.errno==0){
+                            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                            $("#boottable").bootstrapTable('refresh', {  //刷新表单
+                                silent: true
+                            });
+                        }else{
+                            swal("删除失败！", res.msg, "error");
+                        }
+                   });
+                });
+
+            }
+
+
+        </script>
+
+
+</body>
+
+</html>

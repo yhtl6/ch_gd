@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>农产品培育信息</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>农产品培育信息</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+
+                <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <!--<h4 class="example-title">工具条</h4>-->
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                <form role="form" class="form-inline" style="margin-top:0px" id="search-form">
+                                    <button class="btn btn-outline btn-success" type="button" onclick="gofather()" style="margin-top:5px;">返回</button>
+                                    <label>农产品:<%=product_name%></label>&nbsp;&nbsp;&nbsp;
+                                    <label>生长状态:</label>
+                                    <select class="input-sm form-control input-s-sm inline" name="status" id="status" style="font-size: 13px;" onchange="refresh_table(true)">
+                                        <option value="">全部</option>
+                                        <option value="0" <%if(status=='0'){%> selected="selected" <%}%>>育种</option>
+                                        <option value="1" <%if(status=='1'){%> selected="selected" <%}%>>施肥</option>
+                                        <option value="2" <%if(status=='2'){%> selected="selected" <%}%>>除虫</option>
+                                        <option value="3" <%if(status=='3'){%> selected="selected" <%}%>>收获</option>
+                                    </select>
+                                    <button class="btn btn-outline btn-primary" type="button" onclick="toadd()" style="margin-top:5px;">新增</button>
+                                </form>
+
+                            </div>
+                            <table id="rectable" data-mobile-responsive="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="row" data-formatter="rowFormatter">序号</th>
+                                    <th data-field="temperature">温度(℃)</th>
+                                    <th data-field="humidity" >湿度(℃)</th>
+                                    <th data-field="survival_rate">存活率(%)</th>
+                                    <th data-field="status" data-formatter="statusFormatter">生长状态</th>
+                                    <th data-field="id"  data-formatter="operateFormatter">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Example Toolbar -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+
+<!-- Bootstrap table -->
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Peity -->
+<script src="/public/js/demo/bootstrap-table-demo.js"></script>
+<script>
+    var page=1;
+    var pageSize=10;
+    (function () {
+        var page=1;
+        var pageSize=10;
+        if(!isEmpty('<%=page%>')){
+            page=parseInt('<%=page%>');
+        }
+        if(!isEmpty('<%=pageSize%>')){
+            pageSize=parseInt('<%=pageSize%>');
+        }
+        $('#rectable').bootstrapTable({
+            url: "/admin/plant/datalist?product_id=<%=product_id%>",
+            search: false,
+            showRefresh: false,
+            showToggle: true,
+            showColumns: true,
+            queryParams:queryParams,
+            pagination: true,
+            sidePagination: 'server',
+            pageNumber: page,
+            pageSize: pageSize,
+            toolbar: '#data_tool',
+            striped: true
+        })
+    })();
+
+
+    function operateFormatter(value,row, index) {
+        return [
+            "<button type='button' class='btn btn-sm btn-primary' onclick='todetail(\""+value+"\")' style='margin-left:10px'>查看</button>",
+            "<button type='button' class='btn btn-sm btn-warning' onclick='toedit(\""+value+"\")' style='margin-left:10px'>编辑</button>",
+            "<button type='button' class='btn btn-sm btn-danger' style='margin-left:10px' onclick='to_del(\""+value+"\")'>删除</button>"
+        ].join('');
+    }
+    //生长状态格式转换
+    function statusFormatter(value,row,index){
+        var is_public = "";
+        if(value == '0'){
+            is_public = "育种";
+        }else if(value == '1'){
+            is_public = "施肥";
+        }else if(value == '2'){
+            is_public = "除虫";
+        }else if(value == '3'){
+            is_public = "收获";
+        }
+        return [is_public].join('');
+    }
+    function rowFormatter(value,row, index){
+        return [index+1].join('');
+    }
+    //查看培育信息详情
+    function todetail(val){
+        location.href = '/admin/plant/todetail?id='+val+"&page="+$(".pagination .active a").text()
+            +"&pageSize="+$(".page-size").text()+"&"+$("#search-form").serialize()+"&pre_data=<%=pre_data%>&product_id=<%=product_id%>";
+    }
+
+
+    //form表单数据转json
+    function serializeObject(form){
+        var obj=new Object();
+        $.each(form.serializeArray(),function(index,param){
+            if(!(param.name in obj)){
+                obj[param.name]=param.value;
+            }
+        });
+        return obj;
+    }
+    //搜索条件
+    function queryParams(params) {
+        var data=serializeObject($("#search-form")); //获取form表单参数 JSON格式
+        data.limit=params.limit;
+        data.offset=params.offset;
+        return data;
+    }
+    //刷新表单
+    function refresh_table(type){
+        //搜索按钮
+        if(!isEmpty(type)){
+            var params =$("#rectable").bootstrapTable('getOptions');
+            params.queryParams.limit=0;
+            params.queryParams.offset=pageSize;
+            $('#rectable').bootstrapTable('refresh', params);
+        }else{ //普通刷新
+            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                silent: true
+            });
+        }
+    }
+    //返回
+    function gofather() {
+        var pre_data='<%=pre_data%>';
+        console.log(pre_data.pre_page);
+        // location.href='/admin/product/tolist?page';
+    }
+    /*
+      新增页面
+    */
+    function toadd(){
+        location.href='/admin/plant/toadd?page='+$(".pagination .active a").text()
+            +"&pageSize="+$(".page-size").text()+"&"+$("#search-form").serialize()+"&pre_data=<%=pre_data%>&product_id=<%=product_id%>";
+    }
+    /*
+       编辑页面
+     */
+    function toedit(value){
+        location.href='/admin/plant/toedit?id='+value+'&page='+$(".pagination .active a").text()
+            +"&pageSize="+$(".page-size").text()+"&"+$("#search-form").serialize()+"&pre_data=<%=pre_data%>&product_id=<%=product_id%>";
+    }
+    /*
+       删除
+     */
+    function to_del(id){
+        swal({
+            title: "您确定要删除这条数据吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
+        }, function () {
+            $.get("/admin/plant/todel?id="+id,function(res){
+                if(res.errno=='100'){
+                    swal("删除成功！", "您已经永久删除了这条数据。", "success");
+                    setTimeout(function () {
+                        refresh_table();//刷新表单
+                    }, 1000);
+                }else{
+                    swal("删除失败！", res.msg, "error");
+                }
+            });
+        });
+
+    }
+
+
+</script>
+</body>
+</html>

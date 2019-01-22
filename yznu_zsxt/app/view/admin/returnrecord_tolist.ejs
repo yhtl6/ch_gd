@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>回访记录列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <%include public_css%>
+    <link href="/public/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/public/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>回访记录列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+
+                <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <!--<h4 class="example-title">工具条</h4>-->
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="data_tool" role="group">
+                                <form role="form" class="form-inline" style="margin-top:0px" id="search-form">
+                                    <label>所在医院:</label>
+                                    <select class="input-sm form-control input-s-sm inline" name="hospital_id" id="hospital_id" style="font-size: 13px;" onchange="refresh_table(true)">
+                                        <option value="" >全部</option>
+                                        <% for(var i=0;i<hospital_list.length;i++){%>
+                                        <option value="<%=hospital_list[i].id%>"  <%if(hospital_id == hospital_list[i].id){%> selected="selected" <%}%> ><%=hospital_list[i].hospital_name%></option>
+                                        <%}%>
+                                    </select>
+                                    <label>填写时段:</label>
+                                    <input class="laydate-icon form-control layer-date" readonly="" aria-invalid="begin_time" value="<%=begin_time%>" name="begin_time"  placeholder="开始时间" id="start">
+                                    <input class="laydate-icon form-control layer-date" readonly="" aria-invalid="end_time" value="<%=end_time%>" name="end_time"  placeholder="结束时间" id="end">
+                                    <input placeholder="搜索用户名、ID、孩子姓名、联系方式和领取码" class="form-control" value="<%=search%>" name="search" style="margin-left:5px;width:200px;" id="search" oninput="refresh_table(true)">
+
+                                    <button class="btn btn-info" type="button" onclick="refresh_table(true)" style="margin-top:5px;">搜索</button>
+                                    <button class="btn btn-info" type="button" onclick="expallpdf()" style="margin-top:5px;">导出</button>
+                                </form>
+
+                            </div>
+                            <table id="rectable" data-mobile-responsive="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="row" data-formatter="rowFormatter">序号</th>
+                                    <th data-field="user_name">用户名</th>
+                                    <th data-field="user_number">ID</th>
+                                    <th data-field="child_name">孩子姓名</th>
+                                    <th data-field="hospital_name">所在医院</th>
+                                    <th data-field="sickbed_number">病床号</th>
+                                    <th data-field="phone">联系方式</th>
+                                    <th data-field="create_date">填写时间</th>
+                                    <th data-field="id"  data-formatter="operateFormatter">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Example Toolbar -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+<!-- 全局js -->
+<%include public_js%>
+
+<!-- 自定义js -->
+<script src="/public/js/content.js?v=1.0.0"></script>
+
+
+<!-- Bootstrap table -->
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/public/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/public/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Peity -->
+<script src="/public/js/demo/bootstrap-table-demo.js"></script>
+<script>
+    var page=1;
+    var pageSize=10;
+    (function () {
+
+
+        var page=1;
+        var pageSize=10;
+        if(!isEmpty('<%=page%>')){
+            page=parseInt('<%=page%>');
+        }
+        if(!isEmpty('<%=pageSize%>')){
+            pageSize=parseInt('<%=pageSize%>');
+        }
+        $('#rectable').bootstrapTable({
+            url: "/admin/returnrecord/datalist",
+            search: false,
+            showRefresh: false,
+            showToggle: true,
+            showColumns: true,
+            queryParams:queryParams,
+            pagination: true,
+            sidePagination: 'server',
+            pageNumber: page,
+            pageSize: pageSize,
+            toolbar: '#data_tool',
+            striped: true
+        });
+        var start = {
+            elem: '#start',
+            format: 'YYYY-MM-DD',
+            min: "1000-01-01", //设定最小日期为当前日期
+            max: '9999-06-16', //最大日期
+            istime: false,
+            istoday: false,
+
+        };
+        var start = {
+            elem: '#start',
+            format: 'YYYY-MM-DD',
+            max: laydate.now(),
+            istime: false,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后,重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+                refresh_table(true);
+            }
+        };
+        var end = {
+            elem: '#end',
+            format: 'YYYY-MM-DD',
+            max: laydate.now(),
+            istime: false, //是否开启时间选择
+            istoday: false,
+            isclear: true, //是否显示清空
+            issure: true, //是否显示确认
+            choose: function (datas) {
+                start.max = datas; //结束日选好后,重置开始日的最大日期
+                refresh_table(true);
+            }
+        };
+        laydate(start);
+        laydate(end);
+    })();
+
+
+    function operateFormatter(value,row, index) {
+        return [
+            "<button type='button' class='btn btn-sm btn-primary' onclick='todetail(\""+value+"\")' style='margin-left:10px'>查看</button>",
+            "<button type='button' class='btn btn-sm btn-warning' onclick='expPDF(\""+value+"\")' style='margin-left:10px'>导出</button>",
+        ].join('');
+    }
+
+    function rowFormatter(value,row, index){
+        return [index+1].join('');
+    }
+
+
+
+    //form表单数据转json
+    function serializeObject(form){
+        var obj=new Object();
+        $.each(form.serializeArray(),function(index,param){
+            if(!(param.name in obj)){
+                obj[param.name]=param.value;
+            }
+        });
+        return obj;
+    }
+    //搜索条件
+    function queryParams(params) {
+        var data=serializeObject($("#search-form")); //获取form表单参数 JSON格式
+        data.limit=params.limit;
+        data.offset=params.offset;
+        return data;
+    }
+    //刷新表单
+    function refresh_table(type){
+        //搜索按钮
+        if(!isEmpty(type)){
+            var params =$("#rectable").bootstrapTable('getOptions');
+            params.queryParams.limit=0;
+            params.queryParams.offset=pageSize;
+            $('#rectable').bootstrapTable('refresh', params);
+        }else{ //普通刷新
+            $("#rectable").bootstrapTable('refresh', {  //刷新表单
+                silent: true
+            });
+        }
+    }
+    //进入详情页
+    function todetail(val){
+        location.href = '/admin/returnrecord/todetail?id='+val+"&page="+$(".pagination .active a").text()
+            +"&pageSize="+$(".page-size").text()+"&search="+$("#search").val()+"&hospital_id=<%=hospital_id%>&begin_time=<%=begin_time%>&end_time=<%=end_time%>";
+    }
+
+    //回访记录列表导出
+    function expPDF(val){
+        window.open("/common/upload/downloadPDF?id="+val);
+    }
+    //批量导出
+    function expallpdf(){
+        window.location.href="/common/upload/downloadpdfzip?hospital_id="+$("#hospital_id").val()+"&begin_time="+$("#start").val()+"&end_time="+$("#end").val()+"&search="+$("#search").val();
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+/* page/component/login/login.wxss */
+/* pages/login/login.wxss */
+
+page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #fbf9f8;
+}
+
+.body-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+image {
+  width: 100%;
+  height: 100%;
+}
+
+.submit-btn {
+  width: 570rpx;
+  height: 100rpx;
+  background: rgba(0, 86, 179, 1);
+  border-radius: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn .txt {
+  height: 50rpx;
+  font-size: 36rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 50rpx;
+}
+
+.bg-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.bigkuang {
+  width: 100%;
+  display: flex;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  position: absolute;
+  justify-content: center;
+}
+
+.login-all {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top:70rpx;
+}
+
+.login-view {
+  width: 670rpx;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 10rpx 40rpx 0px rgba(0, 86, 179, 0.15);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.login-view .login-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.login-view .login-row .logo-view {
+  margin-top: 60rpx;
+  width: 250rpx;
+  height: 250rpx;
+  background: rgba(254, 254, 254, 1);
+  margin-bottom: 46rpx;
+  display: flex;
+  border-radius: 50%;
+}
+
+.login-view .login-row .logo-txt-view {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.login-view .login-row .logo-txt-view .logo-txt {
+  text-align: center;
+  height: 58rpx;
+  font-size: 42rpx;
+  font-weight: 500;
+  /*  color: rgba(51, 51, 51, 1); */
+  line-height: 58rpx;
+  letter-spacing: 3rpx;
+  background: #0056B3;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 136rpx;
+}
+
+.login-view .login-row .input-view {
+  width: 550rpx;
+  height: 80rpx;
+  background: rgba(245, 243, 242, 1);
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  position: relative;
+}
+
+.login-view .login-row .input-view .input {
+  margin: 18rpx 30rpx 18rpx 30rpx;
+  display: flex;
+}
+
+.login-view .login-row .input-view .input input {
+  width: 100%;
+  height: 44rpx;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #333;
+  line-height: 44rpx;
+}
+
+.login-view .login-row .input-view .txyzm-view {
+  height: 100%;
+  /*  height: 80rpx; */
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.login-view .login-row .input-view .txyzm-view .txyzm {
+  margin: 10rpx 10rpx 10rpx 10rpx;
+  border-radius: 10rpx;
+  border: 2rpx solid #949393;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+}
+
+.login-view .login-row .input-view .txyzm-view .txyzm .image-view {
+  width: 180rpx;
+  height: 60rpx;
+  display: flex;
+}
+
+.login-view .login-row .input-view .dxyzm-view {
+  height: 100%;
+  /*  height: 80rpx; */
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.login-view .login-row .input-view .dxyzm-view .dxyzm {
+  margin: 10rpx 10rpx 10rpx 10rpx;
+  border-radius: 50rpx;
+  border: 2rpx solid #949393;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+}
+
+.login-view .login-row .input-view .dxyzm-view .dxyzm .txt {
+  margin: 0rpx 24rpx 0rpx 24rpx;
+  height: 36rpx;
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 36rpx;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 34rpx;
+  margin-bottom: 40rpx;
+  display: flex;
+  justify-content: center;
+}
+
+input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: rgba(190, 190, 190, 1);
+}
+
+.login-all .txt2 {
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(122, 122, 122, 1);
+  line-height: 44rpx;
+  text-align: center;
+  margin-bottom: 50rpx;
+}
